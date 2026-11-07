@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Falcons Soccer Words | Shorelake BU14</title>
+<style>
+  :root{--green:#1e9e4a;--green-dk:#147a37;--green-lt:#e7f6ec;--black:#111;--ink:#1d1d1d;--muted:#5d6660;--line:#dfe5e1;--bg:#f6f8f7;--gold:#f2b705}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+  header{background:var(--black);color:#fff;padding:22px 16px 16px;text-align:center}
+  header .club{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:#9fdcb4}
+  header h1{margin:4px 0 2px;font-size:1.8rem}
+  header h1 span{color:var(--green)}
+  header p{margin:0;color:#cfd5d2;font-size:.92rem}
+  nav.tabs{display:flex;justify-content:center;gap:6px;background:var(--black);padding:6px 10px 14px;border-bottom:5px solid var(--green)}
+  nav.tabs button{background:#222;color:#fff;border:2px solid #333;border-radius:999px;padding:8px 16px;font-size:.92rem;font-weight:600;cursor:pointer}
+  nav.tabs button.active{background:var(--green);border-color:var(--green)}
+  main{max-width:900px;margin:0 auto;padding:18px 14px 50px}
+  .panel{display:none}.panel.active{display:block}
+  h2.sec{font-size:1.3rem;margin:26px 0 4px;display:flex;align-items:center;gap:8px}
+  h2.sec:first-child{margin-top:4px}
+  .sub{color:var(--muted);font-size:.92rem;margin:0 0 12px}
+  .progress{font-size:.85rem;color:var(--muted);margin-bottom:10px}
+  .bar{height:8px;background:#e4e8e6;border-radius:99px;overflow:hidden;margin-top:4px}
+  .bar div{height:100%;background:var(--green);width:0;transition:width .3s}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;position:relative;transition:.15s}
+  .card h3{margin:0 0 3px;font-size:1.12rem;padding-right:26px}
+  .card p{margin:0;font-size:.93rem}
+  .card .say{display:inline-block;margin-top:6px;font-size:.85rem;font-weight:700;background:var(--gold);color:#111;padding:1px 7px;border-radius:5px}
+  .card .chk{position:absolute;top:10px;right:12px;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);font-size:.75rem;display:flex;align-items:center;justify-content:center;color:#fff}
+  .card.done{border-color:var(--green);background:var(--green-lt)}
+  .card.done .chk{background:var(--green);border-color:var(--green)}
+  .calls .card{border-left:5px solid var(--gold)}
+  .core .card{border-left:5px solid var(--green)}
+  .keeper .card{border-left:5px solid var(--black)}
+  .tip{font-size:.85rem;color:var(--muted);margin:8px 0 0}
+  details{background:#fff;border:1px solid var(--line);border-radius:10px;margin-bottom:8px}
+  summary{padding:12px 14px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"＋";color:var(--green-dk)}
+  details[open] summary::after{content:"－"}
+  .rows{padding:0 14px 8px}
+  .row{padding:8px 0;border-top:1px solid var(--line);font-size:.92rem}
+  .row b{display:block}
+  /* deck picker */
+  .picker{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+  .chip{border:2px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:.88rem;cursor:pointer;font-weight:600;color:var(--ink)}
+  .chip.active{background:var(--black);color:#fff;border-color:var(--black)}
+  .count{font-size:.85rem;color:var(--muted);text-align:center}
+  /* flashcards */
+  .flash-wrap{max-width:480px;margin:0 auto;text-align:center}
+  .flash{perspective:1000px;height:250px;cursor:pointer;margin:10px 0 14px}
+  .flash-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+  .flash.flipped .flash-inner{transform:rotateY(180deg)}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;gap:8px}
+  .front{background:var(--black);color:#fff;border-bottom:7px solid var(--green)}
+  .front h2{font-size:2rem;margin:0}
+  .front small{color:#9fdcb4}
+  .back{background:#fff;border:2px solid var(--green);transform:rotateY(180deg);font-size:1.05rem}
+  .btn-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .btn{border:none;border-radius:10px;padding:10px 16px;font-size:.95rem;font-weight:700;cursor:pointer;background:var(--black);color:#fff}
+  .btn.green{background:var(--green)}
+  .btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line)}
+  /* quiz */
+  .quiz{max-width:580px;margin:0 auto}
+  .qbox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+  .qnum{font-size:.8rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+  .qtext{font-size:1.08rem;margin:8px 0 12px}
+  .opt{display:block;width:100%;text-align:left;padding:11px 14px;margin-bottom:8px;border:2px solid var(--line);border-radius:10px;background:#fff;font-size:1rem;cursor:pointer;font-weight:600}
+  .opt.right{border-color:var(--green);background:var(--green-lt)}
+  .opt.wrong{border-color:#c0392b;background:#fdecea}
+  .feedback{min-height:22px;font-size:.95rem;margin:4px 0 10px}
+  .score{text-align:center;padding:24px 14px}
+  .score h2{font-size:2.3rem;margin:0;color:var(--green-dk)}
+  footer{text-align:center;color:var(--muted);font-size:.85rem;padding:16px 14px 36px}
+  footer a{color:var(--green-dk)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="club">Shorelake Soccer Club · BU14 Falcons</div>
+  <h1>Falcons <span>Soccer Words</span></h1>
+  <p>Know the word. Say the word. React fast.</p>
+</header>
+<nav class="tabs">
+  <button class="active" data-tab="words">📖 Words</button>
+  <button data-tab="flash">🃏 Flashcards</button>
+  <button data-tab="quiz">✅ Quiz</button>
+</nav>
+
+<main>
+  <section class="panel active" id="words">
+    <div class="progress"><span id="progText"></span><div class="bar"><div id="progBar"></div></div></div>
+
+    <h2 class="sec">📣 On-Field Calls</h2>
+    <p class="sub">What players actually say during a game. <b>Learn these first, then use them loud.</b> Tap a card when you've got it.</p>
+    <div class="grid calls" id="callsGrid"></div>
+
+    <h2 class="sec">⭐ Key Words</h2>
+    <p class="sub">You won't shout these, but you need to know what they mean when a coach says them.</p>
+    <div class="grid core" id="coreGrid"></div>
+
+    <h2 class="sec">🧤 Keeper Words</h2>
+    <p class="sub">For our goalkeepers, and for the defenders who need to listen to them.</p>
+    <div class="grid keeper" id="keeperGrid"></div>
+
+    <h2 class="sec">➕ Bonus Words</h2>
+    <p class="sub">Want to go further? Open any group to read more.</p>
+    <div id="bonus"></div>
+  </section>
+
+  <section class="panel" id="flash">
+    <div class="flash-wrap">
+      <div class="picker" id="flashPick"></div>
+      <div class="count" id="flashCount"></div>
+      <div class="flash" id="flashCard">
+        <div class="flash-inner">
+          <div class="face front"><h2 id="fTerm"></h2><small>Tap to flip</small></div>
+          <div class="face back"><p id="fDef" style="margin:0"></p><span id="fSay"></span></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn ghost" id="fPrev">◀</button>
+        <button class="btn green" id="fGot">Got it ✓</button>
+        <button class="btn" id="fNext">Next ▶</button>
+        <button class="btn ghost" id="fShuffle">🔀</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="quiz">
+    <div class="picker" id="quizPick"></div>
+    <div class="quiz" id="quizBox"></div>
+  </section>
+</main>
+
+<footer>
+  Shorelake Soccer Club · Est. 1965 · Go Falcons! 🦅<br>
+  <a href="https://krise626.github.io/Falcons26-TeamFormation/">Formation Guide</a> ·
+  <a href="https://krise626.github.io/U14Falconsphaseofplay/">Phases of Play</a> ·
+  <a href="https://krise626.github.io/Falcons26-Jockeying/">Jockeying</a>
+</footer>
+
+<script>
+// g: core | keeper | bonus group name
+const WORDS = [
+  // ===== ON-FIELD CALLS (said by players) =====
+  {g:"calls", t:"Man On", d:"A defender is right on you. Protect the ball or play it quick.", s:"Man on!"},
+  {g:"calls", t:"Time", d:"No one's on you. Take a touch, look up, pick your pass.", s:"Time!"},
+  {g:"calls", t:"Turn", d:"You're free. Turn and face their goal.", s:"Turn!"},
+  {g:"calls", t:"Switch", d:"Move the ball to the other side of the field, where there's space.", s:"Switch it!"},
+  {g:"calls", t:"Square", d:"I'm beside you. Pass it across to me.", s:"Square!"},
+  {g:"calls", t:"Drop / Back", d:"I'm behind you. Pass it back so we keep it.", s:"Drop!"},
+  {g:"calls", t:"Mine", d:"I've got this ball. Everyone else, leave it.", s:"Mine!"},
+  {g:"calls", t:"Leave It", d:"Let the ball roll past you. A teammate behind you has it.", s:"Leave it!"},
+  {g:"calls", t:"Shoot", d:"You have a chance. Take the shot!", s:"Shoot!"},
+  {g:"calls", t:"Away", d:"Clear it far from our goal. No risks.", s:"Away!"},
+  {g:"calls", t:"Step / Up", d:"Defenders move up the field together.", s:"Step!"},
+  {g:"calls", t:"Hold", d:"Stay where you are. Don't dive in.", s:"Hold!"},
+
+  // ===== KEY WORDS (know what they mean) =====
+  {g:"core", t:"Support", d:"Get close enough, at a good angle, so the ball carrier can pass to you."},
+  {g:"core", t:"Width", d:"Spread out to the sidelines to make the field big when we have the ball."},
+  {g:"core", t:"Compact", d:"Squeeze together when they have the ball so there's no space to pass through."},
+  {g:"core", t:"Pressure", d:"The closest player runs at the ball fast to stop a turn, pass, or shot."},
+  {g:"core", t:"Cover (Position)", d:"Stand behind and to the side of the teammate pressuring, in case they get beat."},
+  {g:"core", t:"Goal-Side", d:"Stay between the player you're marking and our goal."},
+  {g:"core", t:"Recovery Run", d:"Lost the ball? Sprint back toward our goal. No walking."},
+  {g:"core", t:"First Touch", d:"Your first touch on the ball. Push it into space, away from pressure."},
+  {g:"core", t:"Scan", d:"Look over your shoulder before the ball comes, so you know what's around you."},
+  {g:"core", t:"Give-and-Go", d:"Pass, sprint into space, get it right back. Also called a 1-2 or wall pass."},
+  {g:"core", t:"Overlap", d:"Run around the outside of the teammate with the ball to get open."},
+  {g:"core", t:"Through Ball", d:"A pass into space behind the defenders for a teammate to run onto."},
+  {g:"core", t:"Transition", d:"The moment the ball changes teams. React in the first 5 seconds."},
+  {g:"core", t:"Offside", d:"In their half, past the second-to-last defender and the ball when it's passed to you. Not called on throw-ins, goal kicks, or corners."},
+
+  // ===== KEEPER =====
+  {g:"keeper", t:"Keeper!", d:"The keeper is coming for the ball. Everyone clear out of the way.", s:"Keeper!"},
+  {g:"keeper", t:"Ready Position", d:"Feet shoulder-width, knees bent, weight on your toes, hands up and ready."},
+  {g:"keeper", t:"Set", d:"Get your feet still and balanced right before the shot is taken."},
+  {g:"keeper", t:"Narrow the Angle", d:"Step off your line toward the ball so less of the goal is open to shoot at."},
+  {g:"keeper", t:"W Catch", d:"Hands make a W shape, thumbs nearly touching. For shots at chest height or higher."},
+  {g:"keeper", t:"Scoop / Basket Catch", d:"Hug ground balls and low shots into your chest."},
+  {g:"keeper", t:"Get Behind the Ball", d:"Put your body in line with the shot so if your hands miss, your body stops it."},
+  {g:"keeper", t:"Dive / Collapse Dive", d:"Go down sideways to reach a shot, landing on your side, not your stomach."},
+  {g:"keeper", t:"Parry", d:"Can't hold it? Push the ball wide, away from the goal and the attackers."},
+  {g:"keeper", t:"Punch", d:"Use your fists to clear a high ball in a crowd when you can't catch it."},
+  {g:"keeper", t:"Distribution", d:"How the keeper starts the attack: roll, throw, pass, or kick."},
+  {g:"keeper", t:"Punt", d:"Drop the ball from your hands and kick it before it hits the ground."},
+  {g:"keeper", t:"Back-Pass Rule", d:"If a teammate kicks the ball to you on purpose, you can't pick it up. Play it with your feet."},
+  {g:"keeper", t:"Sweeper Keeper", d:"Come off your line to clean up balls played in behind the defense."},
+  {g:"keeper", t:"Organize", d:"The keeper sees the whole field. Talk to your defense the entire game.", s:"Mark up! / Push out!"},
+
+  // ===== BONUS =====
+  {g:"More Calls", t:"Through", d:"I'm running. Play it into the space ahead of me.", s:"Through!"},
+  {g:"More Calls", t:"Wide", d:"I'm open out on the side.", s:"Wide!"},
+  {g:"More Calls", t:"Go / Pressure", d:"Tells the closest teammate to go press the ball.", s:"Go! / Pressure!"},
+  {g:"More Calls", t:"Cover", d:"I'm behind you. You can press, I've got your back.", s:"I've got cover!"},
+  {g:"More Calls", t:"Mark Up", d:"Everyone find a player to guard, now.", s:"Mark up!"},
+  {g:"More Calls", t:"Get Back", d:"We lost it. Sprint back into position.", s:"Get back!"},
+  {g:"Attacking", t:"Underlap", d:"Like an overlap, but the run goes inside the ball carrier."},
+  {g:"Attacking", t:"Third-Man Run", d:"A passes to B while C is already running to get B's next pass."},
+  {g:"Attacking", t:"Check In / Check Out", d:"Move away from the ball, then come back hard, to lose your defender."},
+  {g:"Attacking", t:"Combination Play", d:"Two or three players passing quickly to get past defenders."},
+  {g:"Attacking", t:"Depth", d:"Players at different distances up and down the field, so there are always passing options."},
+  {g:"Attacking", t:"Cross", d:"A pass from the side into the box near the goal."},
+  {g:"Attacking", t:"Cutback", d:"A pass from near the end line pulled back to a teammate arriving late."},
+  {g:"Attacking", t:"Shield", d:"Put your body between the defender and the ball."},
+  {g:"Attacking", t:"Hold-Up Play", d:"A forward keeps the ball under pressure until teammates join in."},
+  {g:"Attacking", t:"Run in Behind", d:"Sprint past the last defender to get on the end of a pass. Time it to stay onside."},
+  {g:"Attacking", t:"Counterattack", d:"Attack fast right after winning the ball, before they're organized."},
+  {g:"Attacking", t:"Build-Up", d:"Move the ball out from the back with short passes instead of kicking it long."},
+  {g:"Defending", t:"Balance", d:"Players away from the ball shift over to protect the middle and far side."},
+  {g:"Defending", t:"Jockey", d:"Stay low, back up, and slow the attacker without diving in."},
+  {g:"Defending", t:"Delay", d:"Slow the attack so teammates can get back."},
+  {g:"Defending", t:"Press", d:"Several players pressure the ball together to win it back quickly."},
+  {g:"Defending", t:"Pressing Trigger", d:"A signal to press, like a bad touch, a back pass, or a pass to the sideline."},
+  {g:"Defending", t:"Marking", d:"Stay close to an opponent so they can't easily get the ball."},
+  {g:"Defending", t:"Tackle", d:"Take the ball off an opponent with your feet. Stay on your feet when you can."},
+  {g:"Defending", t:"Clearance", d:"Kick or head the ball away from danger near our goal."},
+  {g:"Positions & Shape", t:"Formation", d:"How a team lines up, back to front. We play a 3-5-2 with the ball and a 5-3-2 without it."},
+  {g:"Positions & Shape", t:"Center Back", d:"A central defender. We play three."},
+  {g:"Positions & Shape", t:"Wingback", d:"Covers the whole sideline: defender without the ball, winger with it."},
+  {g:"Positions & Shape", t:"No. 6", d:"Holding midfielder. Protects the middle in front of the defense."},
+  {g:"Positions & Shape", t:"No. 8", d:"Box-to-box midfielder. Helps defend and joins the attack."},
+  {g:"Positions & Shape", t:"No. 10", d:"Attacking midfielder. The creator who finds space and plays the killer pass."},
+  {g:"Positions & Shape", t:"No. 9", d:"Striker. Scores, holds the ball up, and makes runs."},
+  {g:"Positions & Shape", t:"Lines", d:"The rows across the field: defense, midfield, attack. Keep them close."},
+  {g:"Positions & Shape", t:"Half-Space", d:"The lane between the middle and the wide area. A great spot to get the ball."},
+  {g:"Positions & Shape", t:"Pocket / The Hole", d:"Space between their midfield and their defense."},
+  {g:"Rules & Restarts", t:"Set Piece", d:"Any restart from a stopped ball: corner, free kick, throw-in, goal kick, penalty."},
+  {g:"Rules & Restarts", t:"Direct Free Kick", d:"You can score straight from it."},
+  {g:"Rules & Restarts", t:"Indirect Free Kick", d:"Someone else must touch it before a goal counts. The ref raises one arm."},
+  {g:"Rules & Restarts", t:"Wall", d:"Defenders lined up 10 yards from a free kick to block the shot."},
+  {g:"Rules & Restarts", t:"Corner Kick", d:"Restart from the corner after the defense knocks it over their own end line."},
+  {g:"Rules & Restarts", t:"Goal Kick", d:"Restart from the goal area after the attack knocks it over the end line."},
+  {g:"Rules & Restarts", t:"Throw-In", d:"Both hands, ball behind your head, both feet on the ground."},
+  {g:"Rules & Restarts", t:"Advantage", d:"The ref lets play go on after a foul. Keep playing until the whistle."},
+  {g:"Rules & Restarts", t:"Handball", d:"Touching the ball on purpose with your hand or arm, or making yourself bigger with your arms."},
+  {g:"Rules & Restarts", t:"Yellow / Red Card", d:"Yellow is a warning. Red means you're sent off."},
+  {g:"The Field", t:"Penalty Box (18)", d:"The big box in front of each goal."},
+  {g:"The Field", t:"Six-Yard Box", d:"The small box right in front of the goal."},
+  {g:"The Field", t:"Penalty Spot", d:"12 yards out. Where penalty kicks are taken."},
+  {g:"The Field", t:"Thirds", d:"Defensive, middle, and attacking third. Take fewer risks near our goal."},
+  {g:"The Field", t:"Near Post / Far Post", d:"The post closest to the ball and the one farthest from it."},
+  {g:"The Field", t:"Touchline / End Line", d:"The long sidelines, and the short lines at each end."}
+];
+
+const KEY="falcons-words-learned";
+let learned=new Set();
+try{learned=new Set(JSON.parse(localStorage.getItem(KEY)||"[]"));}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify([...learned]));}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));}
+const CALLS=WORDS.filter(w=>w.g==="calls"), CORE=WORDS.filter(w=>w.g==="core"), KEEP=WORDS.filter(w=>w.g==="keeper"), BONUS=WORDS.filter(w=>!["calls","core","keeper"].includes(w.g));
+const MAIN=[...CALLS,...CORE];
+
+// ---------- tabs ----------
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav.tabs button,.panel").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); document.getElementById(b.dataset.tab).classList.add("active");
+  if(b.dataset.tab==="quiz"&&!quizStarted) startQuiz();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+// ---------- words ----------
+function cardsHTML(list){
+  return list.map(w=>`<div class="card ${learned.has(w.t)?"done":""}" data-t="${esc(w.t)}">
+    <span class="chk">✓</span><h3>${esc(w.t)}</h3><p>${esc(w.d)}</p>${w.s?`<span class="say">${esc(w.s)}</span>`:""}</div>`).join("");
+}
+function renderWords(){
+  document.getElementById("callsGrid").innerHTML=cardsHTML(CALLS);
+  document.getElementById("coreGrid").innerHTML=cardsHTML(CORE);
+  document.getElementById("keeperGrid").innerHTML=cardsHTML(KEEP);
+  document.querySelectorAll("#callsGrid .card,#coreGrid .card,#keeperGrid .card").forEach(c=>c.onclick=()=>{
+    const t=c.dataset.t; learned.has(t)?learned.delete(t):learned.add(t); save(); renderWords();
+  });
+  const n=MAIN.filter(w=>learned.has(w.t)).length;
+  document.getElementById("progText").textContent=`${n} of ${MAIN.length} calls + key words learned`+(n===MAIN.length?" · 🦅 Falcon fluent!":"");
+  document.getElementById("progBar").style.width=(n/MAIN.length*100)+"%";
+}
+function renderBonus(){
+  const groups=[...new Set(BONUS.map(w=>w.g))];
+  document.getElementById("bonus").innerHTML=groups.map(g=>{
+    const list=BONUS.filter(w=>w.g===g);
+    return `<details><summary>${esc(g)} <span style="font-weight:400;color:var(--muted);margin-left:auto;margin-right:10px">${list.length}</span></summary>
+      <div class="rows">${list.map(w=>`<div class="row"><b>${esc(w.t)}</b>${esc(w.d)}${w.s?` <span class="say" style="font-size:.8rem;font-weight:700;background:var(--gold);padding:0 6px;border-radius:5px">${esc(w.s)}</span>`:""}</div>`).join("")}</div></details>`;
+  }).join("");
+}
+renderWords(); renderBonus();
+
+// ---------- deck picker (shared) ----------
+const DECKS={"📣 Calls":CALLS,"⭐ Key Words":CORE,"🧤 Keeper":KEEP,"➕ Bonus":BONUS,"All":WORDS};
+function picker(el,current,onPick){
+  el.innerHTML=""; Object.keys(DECKS).forEach(k=>{
+    const b=document.createElement("button"); b.className="chip"+(k===current?" active":""); b.textContent=k;
+    b.onclick=()=>onPick(k); el.appendChild(b);
+  });
+}
+
+// ---------- flashcards ----------
+let fDeckName="📣 Calls", deck=[], fi=0;
+const card=document.getElementById("flashCard");
+function buildDeck(){ deck=[...DECKS[fDeckName]]; fi=0; picker(document.getElementById("flashPick"),fDeckName,k=>{fDeckName=k;buildDeck();}); showCard(); }
+function showCard(){
+  card.classList.remove("flipped");
+  setTimeout(()=>{
+    const w=deck[fi];
+    document.getElementById("fTerm").textContent=w.t;
+    document.getElementById("fDef").textContent=w.d;
+    document.getElementById("fSay").innerHTML=w.s?`<span class="say" style="font-weight:700;background:var(--gold);padding:1px 7px;border-radius:5px">${esc(w.s)}</span>`:"";
+    document.getElementById("flashCount").textContent=`Card ${fi+1} of ${deck.length}`+(learned.has(w.t)?" · ✓ learned":"");
+  },150);
+}
+card.onclick=()=>card.classList.toggle("flipped");
+document.getElementById("fNext").onclick=()=>{fi=(fi+1)%deck.length;showCard();};
+document.getElementById("fPrev").onclick=()=>{fi=(fi-1+deck.length)%deck.length;showCard();};
+document.getElementById("fGot").onclick=()=>{learned.add(deck[fi].t);save();renderWords();fi=(fi+1)%deck.length;showCard();};
+document.getElementById("fShuffle").onclick=()=>{deck.sort(()=>Math.random()-.5);fi=0;showCard();};
+buildDeck();
+
+// ---------- quiz ----------
+let quizStarted=false, qDeckName="📣 Calls", qs=[], qi=0, score=0;
+const box=document.getElementById("quizBox");
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function startQuiz(){
+  quizStarted=true; qi=0; score=0;
+  picker(document.getElementById("quizPick"),qDeckName,k=>{qDeckName=k;startQuiz();});
+  const pool=DECKS[qDeckName];
+  qs=shuffle([...pool]).slice(0,10).map(w=>{
+    const wrong=shuffle(pool.filter(x=>x.t!==w.t)).slice(0,3);
+    return {w,opts:shuffle([w,...wrong])};
+  });
+  showQ();
+}
+function showQ(){
+  if(qi>=qs.length) return showScore();
+  const {w,opts}=qs[qi];
+  box.innerHTML=`<div class="qbox">
+    <div class="qnum">Question ${qi+1} of ${qs.length} · Score ${score}</div>
+    <div class="qtext">Which word means: <b>“${esc(w.d)}”</b></div>
+    ${opts.map(o=>`<button class="opt" data-t="${esc(o.t)}">${esc(o.t)}</button>`).join("")}
+    <div class="feedback" id="fb"></div>
+    <div class="btn-row"><button class="btn green" id="qNext" style="display:none">${qi+1<qs.length?"Next ▶":"See my score"}</button></div></div>`;
+  box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    if(box.querySelector(".opt.right,.opt.wrong")) return;
+    const ok=b.dataset.t===w.t;
+    if(ok){score++;b.classList.add("right");learned.add(w.t);save();renderWords();}
+    else{b.classList.add("wrong");box.querySelectorAll(".opt").forEach(o=>{if(o.dataset.t===w.t)o.classList.add("right");});}
+    document.getElementById("fb").innerHTML=ok?"✅ Nice!":`❌ It's <b>${esc(w.t)}</b>.`;
+    document.getElementById("qNext").style.display="inline-block";
+  });
+  document.getElementById("qNext").onclick=()=>{qi++;showQ();};
+}
+function showScore(){
+  const pct=score/qs.length;
+  const msg=pct===1?"Perfect! You're speaking Falcon. 🦅":pct>=.8?"Great job!":pct>=.6?"Solid. Hit the flashcards and go again.":"Keep studying and try again!";
+  box.innerHTML=`<div class="qbox score"><div class="qnum">Your score</div><h2>${score} / ${qs.length}</h2><p>${msg}</p>
+    <div class="btn-row"><button class="btn green" id="again">Try again</button></div></div>`;
+  document.getElementById("again").onclick=startQuiz;
+}
+</script>
+</body>
+</html>
